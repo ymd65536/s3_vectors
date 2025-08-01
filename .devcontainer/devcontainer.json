@@ -1,0 +1,23 @@
+{
+    "name": "cdk-container",
+    "dockerFile": "Dockerfile",
+    "runArgs": [
+        "--init",
+        "--privileged"
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.flake8",
+                "ms-python.vscode-pylance",
+                "amazonwebservices.aws-toolkit-vscode",
+                "ms-vscode.vscode-typescript-next",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "VisualStudioExptTeam.intellicode-api-usage-examples"
+            ]
+        }
+    }
+}

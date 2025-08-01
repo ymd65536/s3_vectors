@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:18
+RUN curl 'https://awscli.amazonaws.com/awscli-exe-linux-'$(uname -m)'.zip' -o 'aws-cli.zip' && \
+    unzip aws-cli.zip && \
+    sudo ./aws/install && \
+    rm -rf aws aws-cli.zip
+USER node
+RUN npm install -g aws-cdk@2.153.0
