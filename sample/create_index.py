@@ -1,5 +1,7 @@
 import os
-from s3_vector_engine import core
+from s3_vector_engine import core_beta
+
+model_id = "amazon.titan-embed-text-v2:0"
 
 if __name__ == "__main__":
 
@@ -7,7 +9,7 @@ if __name__ == "__main__":
         Create S3 Vector index and upload sample vectors.
     """
     print("Starting S3 Vector setup...")
-    core.create_index(os.environ.get('S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'))
+    core_beta.create_index(os.environ.get('S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'))
 
     print("Creating embedding for sample text...")
     sample_texts = [
@@ -15,7 +17,10 @@ if __name__ == "__main__":
         "Jurassic Park: Scientists create dinosaurs in a theme park that goes wrong"
     ]
 
-    embedding_results = core.create_embedding_sample_text(sample_texts)
+    embedding_results = core_beta.create_embedding_sample_text(
+        sample_texts,
+        model_id=model_id
+    )
 
     """
         Upload vectors to the S3 Vector index.
@@ -29,7 +34,7 @@ if __name__ == "__main__":
             "id": "key2", "source_text": sample_texts[1], "genre": "scifi"}}
     ]
 
-    core.put_vectors(
+    core_beta.put_vectors(
         bucket_name=os.environ.get(
             'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
         index_name='sample-index',
