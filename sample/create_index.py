@@ -17,26 +17,30 @@ if __name__ == "__main__":
         "Jurassic Park: Scientists create dinosaurs in a theme park that goes wrong"
     ]
 
-    embedding_results = core_beta.create_embedding_sample_text(
-        sample_texts,
-        model_id=model_id
-    )
+    try:
 
-    """
-        Upload vectors to the S3 Vector index.
-    """
-    print("Uploading embeddings to S3 Vector index...")
+        embedding_results = core_beta.create_embedding_sample_text(
+            sample_texts,
+            model_id=model_id
+        )
 
-    vectors = [
-        {"key": "v1", "data": {"float32": embedding_results[0]}, "metadata": {
-            "id": "key1", "source_text": sample_texts[0], "genre": "scifi"}},
-        {"key": "v2", "data": {"float32": embedding_results[1]}, "metadata": {
-            "id": "key2", "source_text": sample_texts[1], "genre": "scifi"}}
-    ]
+        """
+            Upload vectors to the S3 Vector index.
+        """
+        print("Uploading embeddings to S3 Vector index...")
 
-    core_beta.put_vectors(
-        bucket_name=os.environ.get(
-            'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
-        index_name='sample-index',
-        vectors=vectors
-    )
+        vectors = [
+            {"key": "v1", "data": {"float32": embedding_results[0]}, "metadata": {
+                "id": "key1", "source_text": sample_texts[0], "genre": "scifi"}},
+            {"key": "v2", "data": {"float32": embedding_results[1]}, "metadata": {
+                "id": "key2", "source_text": sample_texts[1], "genre": "scifi"}}
+        ]
+
+        core_beta.put_vectors(
+            bucket_name=os.environ.get(
+                'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
+            index_name='sample-index',
+            vectors=vectors
+        )
+    except Exception as e:
+        print(f"Error creating embeddings: {e}")
