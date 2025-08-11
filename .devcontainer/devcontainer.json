@@ -1,13 +1,7 @@
 {
     "name": "cdk-container",
     "dockerFile": "Dockerfile",
-    "runArgs": [
-        "--init",
-        "--privileged"
-    ],
-    "features": {
-        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-    },
+    "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
     "customizations": {
         "vscode": {
             "extensions": [
