@@ -137,21 +137,26 @@ def put_vectors(
 
 if __name__ == "__main__":
     print("Query S3 Vector index...")
-    query_text = "List the movies about adventures in space"
-    embedding_query_text = create_embedding_query_text(query_text)
 
-    query_response = query_vectors(
-        bucket_name=os.environ.get(
-            'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
-        index_name='sample-index',
-        query_vector={"float32": embedding_query_text},
-        top_k=3,
-        filter={"genre": "scifi"},
-        return_distance=True,
-        return_metadata=True
-    )
+    try:
+        query_text = "List the movies about adventures in space"
+        embedding_query_text = create_embedding_query_text(query_text)
 
-    results = query_response["vectors"]
+        query_response = query_vectors(
+            bucket_name=os.environ.get(
+                'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
+            index_name='sample-index',
+            query_vector={"float32": embedding_query_text},
+            top_k=3,
+            filter={"genre": "scifi"},
+            return_distance=True,
+            return_metadata=True
+        )
 
-    print(results[0]["metadata"]["source_text"])
+        results = query_response["vectors"]
+
+        print(results[0]["metadata"]["source_text"])
+    except Exception as e:
+        print(f"Error querying vectors: {e}")
+
     print("Done.")
