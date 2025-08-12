@@ -142,6 +142,7 @@ if __name__ == "__main__":
         query_text = "List the movies about adventures in space"
         embedding_query_text = create_embedding_query_text(query_text)
 
+        print("Querying")
         query_response = query_vectors(
             bucket_name=os.environ.get(
                 'S3_VECTOR_BUCKET_NAME', 's3-vector-bucket'),
